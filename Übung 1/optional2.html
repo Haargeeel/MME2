@@ -1,0 +1,51 @@
+<html>
+<head>
+<script type="text/javascript">
+function Attacke(){
+	var canvas = document.getElementById("canvas");
+	var context = canvas.getContext("2d");
+	var x1 = 100;
+	var y1 = 200;
+	var size1 = {width:50, height:50};
+	var x2 = 300;
+	var y2 = 300;
+	var size2 = size1;
+	
+	context.strokeStyle = "#bbbbbb"
+	context.strokeRect(x1, y1, size1.width, size1.height);
+	context.strokeRect(x2, y2, size2.width, size2.height);
+	context.strokeStyle = "#444444";
+	context.moveTo(x1 + size1.width/2, y1 + size1.height/2);
+	context.lineTo(x2 + size2.width/2, y2 + size2.height/2);
+	context.stroke();
+	
+	
+}
+</script>
+<style type="text/css"">
+#canvas{
+	border: 1px solid #bbbbbb;
+}
+#alles{
+	margin: 100px auto auto auto;
+	vertical-align: middle;
+	horizontal-align: middle;
+	width: 500px;
+}
+</style>
+
+</head>
+<body onload="Attacke()">
+<div id="alles">
+	<canvas id="canvas" height="400" width="498">
+        <!-- NOTE: the "position:relative" is required due to the current  
+             implementation of mouse coordinate processing in module "util". -->
+        If you see this text, your browser probably does not 
+        support HTML5. 
+	</canvas>
+
+</div>
+</body>
+
+
+</html>

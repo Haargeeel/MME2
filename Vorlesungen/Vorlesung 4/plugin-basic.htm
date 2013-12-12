@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+</head>
+<body>
+	<button id="myButton1">mme2plugin</button>
+	<div id="content">
+		<div id="main">
+			Default Text
+		</div>
+	</div>
+	<script>
+		$.fn.mmeplugin = function() {
+			this.html( "Hallo MME2" );
+		};
+	 
+		$("#myButton1").click(function(event){
+			$( "#main" ).mmeplugin();
+		});
+	</script>
+</body>
+
+</html>

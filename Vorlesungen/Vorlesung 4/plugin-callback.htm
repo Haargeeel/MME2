@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+</head>
+<body>
+	<button id="myButton1">mme2plugin</button>
+	<div id="content">
+		<div class="myDiv">
+			Default Text
+		</div>
+		<div class="myDiv">
+			Default Text
+		</div>
+		<div class="myDiv">
+			Default Text
+		</div>
+	</div>
+	<script>
+		;(function ( $ ) {
+		$.fn.mmeplugin = function(options){
+		options = $.extend( {x:1,y:2}, options );
+				return this.each(function(){
+				 $(this).html(options.x+options.y);
+				 if(typeof(options.fertig) == "function"){
+					  options.fertig(this);
+				 } 	    
+			});
+		};  
+		}( jQuery )); 
+
+
+		$("#myButton1").click(function(event){
+			$( ".myDiv" ).mmeplugin({
+				x:2,
+				fertig: function(context){
+					console.log(context);
+				}
+			});	 
+		});
+	</script>
+</body>
+
+</html>

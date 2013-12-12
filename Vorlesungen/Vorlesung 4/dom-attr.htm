@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+</head>
+<body>
+	<button id="myButton1" value="mme2">Changes Normal</button>
+	<button id="myButton2" value="mme2">Changes Function</button>
+	<input id="myInput1" value="Start Value 1"></input>
+	<input id="myInput2" value="Start Value 2"></input>
+	<script>
+		$("#myButton1").click(function(event){
+			console.log($("#myInput1").attr("value"));
+			$("#myInput1").attr("value","Changed Value 1");
+			$("#myInput2").attr({
+				value:"Changed Value 2",
+				customattribute: "Hello World"
+			});
+		});
+		$("#myButton2").click(function(event){
+			$("input").attr("value",function(index, attr){
+				return this.id;
+			});
+		});
+	</script>
+</body>
+
+
+
+</html>

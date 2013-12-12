@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+</head>
+<body>
+	<button id="myButton1">html()</button>
+	<button id="myButton2">empty()</button>
+	<button id="myButton3">append()</button>
+	<button id="myButton4">prepend()</button>
+	<button id="myButton5">before()</button>
+	<button id="myButton6">after()</button>
+	<button id="myButton7">remove()</button>
+	<div id="content">
+		<div id="main">
+			Default Text
+		</div>
+	</div>
+	<script>
+		$("#myButton1").click(function(event){
+			$("#main").html("<h3>Hello World</h3>");
+		});
+		$("#myButton2").click(function(event){
+			$("#main").empty();
+		});
+		$("#myButton3").click(function(event){
+			$("#main").append("<h4>Append!</h4>");
+		});
+		$("#myButton4").click(function(event){
+			$("#main").prepend("<h4>Prepend!</h4>");
+		});
+		$("#myButton5").click(function(event){
+			$("#main").before("<h5>Before!</h5>");
+		});
+		$("#myButton6").click(function(event){
+			$("#main").after("<h5>After!</h5>");
+		});
+		$("#myButton7").click(function(event){
+			$("h5").remove();
+		});
+
+	</script>
+</body>
+</html>

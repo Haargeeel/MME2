@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+</head>
+<body>
+	<div>
+		<button id="myButton" value="mme2">Click</button>
+	</div>
+	<script>
+		$("#myButton").click(function(event){
+			console.log(event);
+		});
+		$("div").click(function(event){
+			console.log(event);
+		});
+		$("body").click(function(event){
+			console.log(event);
+		}); 
+	</script>
+</body>
+</html>

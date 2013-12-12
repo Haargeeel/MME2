@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+</head>
+<body>
+	<button id="myButton1">mme2plugin</button>
+	<div id="content">
+		<div class="myDiv">
+			Default Text
+		</div>
+		<div class="myDiv">
+			Default Text
+		</div>
+		<div class="myDiv">
+			Default Text
+		</div>
+	</div>
+	<script>
+		;(function ( $ ) {
+			$.fn.mmeplugin = function(){
+				return this.each(function(){
+					 $(this).html( "Hallo MME2" ); 	    
+				});
+			};  
+		}( jQuery ));	 
+		$("#myButton1").click(function(event){
+			$( ".myDiv" ).mmeplugin();
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+#startElement{
+	position: absolute;
+	left: 100px;
+	top: 275px;
+	height: 50px;
+	width: 120px;
+	border: 1px solid black;
+	border-radius: 100px;
+}
+
+.element{
+	position: absolute;
+	left: 100px;
+	top: 100px;
+	background: #FFE6DC;
+	height: 50px;
+	width: 120px;
+}
+
+.beschriftung{
+	vertical-align: middle;
+	horizontal-align: middle;	
+	margin: auto auto auto auto;
+}
+
+#buttonbereich{
+	margin: 10px auto 10px auto;	
+	vertical-align: middle;
+	horizontal-align: middle;
+	width: 200px;
+}
+
+.ap_links{
+	position:absolute;
+	height:5px;
+	width:5px;
+	border: 1px solid #000000;
+	border-radius: 5px;
+	left:-4px;
+	top:21px;
+	opacity: 0.0;
+}
+
+.ap_rechts{
+	position:absolute;
+	height:5px;
+	width:5px;
+	border: 1px solid #000000;	
+	border-radius: 5px;
+	left:117px;
+	top:21px;
+	opacity: 0.0;
+}
+
+.ap_oben{
+	position:absolute;
+	height:5px;
+	width:5px;
+	border: 1px solid #000000;
+	border-radius: 5px;
+	left:56px;
+	top:-4px;
+	opacity: 0.0;
+}
+
+.ap_unten{
+	position:absolute;
+	height:5px;
+	width:5px;
+	border: 1px solid #000000;
+	border-radius: 5px;
+	left:56px;
+	top:47px;
+	opacity: 0.0;
+}
+
+
+
+canvas{
+	border: 1px solid #bbbbbb;
+}
+

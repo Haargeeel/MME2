@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+
+<head>
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="./sequenzeditor.js"></script>
+<script>
+        $(document).ready(function() {
+                $('#mySeqEditor').sequenzeditor();
+        });
+</script>
+<link rel="stylesheet" type="text/css" href="aufgabe1.css">
+</head>
+<body>
+	<div id="buttonbereich">
+		<button id="button" onclick="addElement()">neues Element</button>
+	</div>
+	<canvas id="canvas" height="600" width="1200">
+	</canvas>
+
+</body>
+
+</html>

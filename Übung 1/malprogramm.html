@@ -1,0 +1,102 @@
+<html>
+
+<head>
+<script type="text/javascript">
+function Attacke(){
+	
+	var canvas = document.getElementById("canvas");
+	var context = canvas.getContext("2d");
+	var x,y;
+	canvas.onmousemove = function(e){
+		//var rect = canvas.getBoundingClientRect();
+		//console.log(e.clientX + "  " + e.clientY);
+		x = e.clientX-canvas.offsetLeft;
+		y = e.clientY-canvas.offsetTop;
+		paint();	
+	}
+	var active = false;
+	canvas.onmousedown = function(){
+		active = true;
+	}
+	canvas.onmouseup = function(){
+		active = false;
+	}
+	function paint(){
+		//console.log(x + " " + y);
+		var farbe = document.getElementById("color").value;
+		var dicke = document.getElementById("dicke").value;
+		if(active){
+			context.lineTo(x,y);
+			context.strokeStyle = farbe;
+			context.lineWidth = dicke;	
+			context.stroke();
+		}else{
+			context.beginPath();
+			context.moveTo(x,y);
+		}
+	}
+}
+</script>
+<style type="text/css"">
+#canvas {
+	
+	position:relative; 
+	border:1px solid #bbbbbb;
+	cursor: pointer;
+}
+
+#alles {
+	margin-left: auto;
+	margin-right: auto;	
+	margin-top: 100px;
+	vertical-align: middle; 
+	horizontal-align: middle;
+	width: 500px;
+}
+
+#eingaben {
+	border-top: 1px solid #bbbbbb;
+	border-left: 1px solid #bbbbbb;
+	border-right: 1px solid #bbbbbb;
+	horizontal-align: middle;
+	background: #FFE6DC;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+#size {
+	margin-left: 20px;	
+}
+
+#farbe {
+	margin-left: 20px;	
+}
+
+label {
+	font-family: fantasy;	
+}
+
+#dicke {
+	color: #ff0000;	
+}
+</style>
+</head>
+<body onload="Attacke()">
+<div id="alles">
+	<div id="eingaben">  
+		<label id="size">Size</label>
+		<input id="dicke" type="number" name="dicke" min="1" max="10" value="1">
+		<label id="farbe">Color</label>
+		<input id="color" type="color" name="farbe"> 
+	</div>
+	<canvas id="canvas" height="400" width="498">
+		<!-- NOTE: the "position:relative" is required due to the current  
+		     implementation of mouse coordinate processing in module "util". -->
+		If you see this text, your browser probably does not 
+		support HTML5. 
+	</canvas>
+
+</div>
+</body>
+
+</html>

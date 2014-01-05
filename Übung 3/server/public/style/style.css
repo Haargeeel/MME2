@@ -76,26 +76,7 @@
 
 
 
-#canvas{
+canvas{
 	border: 1px solid #bbbbbb;
 }
 
-#wrapper{
-	margin: 0 auto;
-	height: 602px;
-	width: 1260px;
-}
-
-#listbereich{
-	padding: 10px;
-	float: right;
-}
-
-#liste{
-	border: 1px solid #bbbbbb;
-	margin: 5px;
-}
-
-p{
-	margin: 1px 1px 1px 5px;
-}

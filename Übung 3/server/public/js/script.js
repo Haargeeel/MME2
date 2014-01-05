@@ -24,26 +24,17 @@ $(document).ready(function() {
 
 	testButton.addEventListener('click', function(){
 		var ids = [];
-			for(var i = 1; i < elementList.length; i++){
+			for(var i = 0; i < elementList.length; i++){
 				ids.push(elementList[i].id);	
-				var elemente = { element: { id: i, position: [elementList[i].element.style.left, elementList[i].element.style.top] } };
-				$.post('http://localhost:8080/db', elemente, function(data){
-			console.log('eingefügt: ' + data);
-				});
 			}
-	}, false);
 	
-		
-
-	var testButton2 = document.getElementById('testButton2');
-
-	testButton2.addEventListener('click', function(){
-		$.get('http://localhost:8080/getdb', function(data){
-			firstElement = new Element(0);
-			elementList.push(firstElement);
-			otherElement = new Element(data[0].inhalt.element.id, data[0].inhalt.element.position[0], data[0].inhalt.element.position[1]);
-			elementList.push(otherElement);	
-			console.log(data[0].inhalt.element.position);
+		var t = { name: ids};
+		var id = elementList[1].id;
+		var x = elementList[1].element.style.left;
+		var y = elementList[1].element.style.top;
+		var elemente = { element: { id: id, position: [x, y] } };
+		$.post('http://localhost:8080/db', elemente, function(data){
+			console.log(data);
 		});
 	}, false);
 });

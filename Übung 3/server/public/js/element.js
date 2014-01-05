@@ -4,7 +4,7 @@
 // Element mit Ankerpunkten
 //
 
-var Element = function(nummer, xPos, yPos){
+var Element = function(nummer){
 
 	if(nummer == 0){
 		$('<div id="startElement"></div>')
@@ -18,8 +18,6 @@ var Element = function(nummer, xPos, yPos){
 		$('<div class="ap_oben" id="ap_oben0"></div>')
 			.appendTo($('#startElement'));
 		this.element = document.getElementById('startElement');
-		this.xPos = xPos || '100px';
-		this.yPos = yPos || '275px';
 	}else{
 		$('<div class="element" id="element' + nummer + 
 			'"></div>').appendTo('body');
@@ -32,13 +30,8 @@ var Element = function(nummer, xPos, yPos){
 		$('<div class="ap_oben" id="ap_oben' + nummer +
 			'"></div>').appendTo($('#element' + nummer));
 		this.element = document.getElementById('element' + nummer);
-		this.xPos = xPos || '100px';
-		this.yPos = yPos || '100px';
 	}
-		
-	this.element.style.left = this.xPos;
-	this.element.style.top = this.yPos;
-	console.log('huhu');
+
 	this.id = nummer;
 	$('.element').draggable({ containment: "parent"});
 	this.ap_links = document.getElementById('ap_links' + nummer);

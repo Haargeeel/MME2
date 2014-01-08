@@ -13,23 +13,35 @@
 	<div id="buttonbereich">
 		<button id="button">neues Element</button>
 	</div>
-	<div id="wrapper">
-		<canvas id="canvas" height="600" width="1000">
-		</canvas>
-		<div id="listbereich">
-			<div id="liste">
-				<p>hallo</p>
-				<p>nochmal hallo</p>
-			</div>
-			<div id="listButtons">
-				<button id="newSequenz">Create New</button>
-				<button id="delete">delete</button>
-				<button id="testButton">geben</button>
-				<button id="testButton2">holen</button>
-			</div>
+
+	<div id="canvas_wrapper">
+		<canvas id="canvas" height="500" width="800"></canvas>
+	</div>
+
+	<div id="db-stuff">
+		<p id="pEmail"><font color="#FF6E14">Deine E-Mail Adresse: </font></p>
+		<input type="email" id="email">
+		<button id="getSequenzes">Sequenzen laden</button>
+		<button id="openPopup">Sequenz speichern</button>
+		<div class="db-stuff" id="liste">
+
 		</div>
+		<button class="db-stuff" id="getMarkedSequenz">markierte Sequenz laden</button>
+		<button class="db-stuff" id="deleteMarkedSequenz">markierte Sequenz löschen</button>
+		
 	</div>
 	
+	<div id="popup">
+		<div id="closePopup"></div>
+
+		<div id="popup_inhalt">
+			<p><h3><font color="#FF6E14">Du musst noch eine E-Mail und einen Namen für dein Sequenzdiagramm eingeben</font></h3></p>
+			<label><font color="#FF6E14">E-Mail:  </font></label><input id="addEmail" type="email"><br>
+			<label><font color="#FF6E14">Sequenzname:   </font></label><input id="addSequenz" type="text"><br>
+			<button id="saveSequenz">Speichern</button>
+		</div>
+	</div>
+	<div id='hintergrund'></div>	
 </body>
 
 </html>

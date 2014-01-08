@@ -1,18 +1,26 @@
+body{
+	background-image: -webkit-linear-gradient(top, #646464 0%, #787878 100%);
+	height: 700px;
+}
+
 #startElement{
 	position: absolute;
-	left: 100px;
+	left: 200px;
 	top: 275px;
 	height: 50px;
 	width: 120px;
 	border: 1px solid black;
-	border-radius: 100px;
+	border-radius: 10px;
+	background-image: -webkit-linear-gradient(top, #32AA32 0%, #32DC32 100%);
 }
 
 .element{
 	position: absolute;
-	left: 100px;
+	left: 200px;
 	top: 100px;
-	background: #FFE6DC;
+//	background: #FFE6DC;
+	background-image: -webkit-linear-gradient(top, #32B4C8 0%, #32B4FA 100%);
+	border-radius: 10px;
 	height: 50px;
 	width: 120px;
 }
@@ -24,10 +32,9 @@
 }
 
 #buttonbereich{
+	display: block;
 	margin: 10px auto 10px auto;	
-	vertical-align: middle;
-	horizontal-align: middle;
-	width: 200px;
+	width: 100px;
 }
 
 .ap_links{
@@ -78,6 +85,15 @@
 
 #canvas{
 	border: 1px solid #bbbbbb;
+	background: #FFFFFF;
+}
+
+#canvas_wrapper{
+	height: 502px;
+	width: 800px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #wrapper{
@@ -91,11 +107,94 @@
 	float: right;
 }
 
-#liste{
-	border: 1px solid #bbbbbb;
-	margin: 5px;
-}
 
 p{
 	margin: 1px 1px 1px 5px;
+}
+
+#db-stuff{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;	
+	margin-top: 15px;
+	width: 530px;
+}
+
+#pEmail{
+	float: left;
+	margin-right: 5px;
+}
+
+label{
+	cursor: pointer;
+}
+
+#liste{
+	border: 1px solid #bbbbbb;
+	margin: 5px 140px 5px 140px;
+	padding: 5px;
+	clear: left;
+}
+
+.sequenzlabel{
+	clear: both;
+}
+
+.db-stuff{
+	display: none;
+}
+
+#hintergrund{
+	display:none;
+	z-index:1;
+	position:fixed;
+	height: 100%;
+	width: 100%;
+	top: 0px;
+	left: 0px;
+	background: #000000;
+}
+
+#popup{
+	display: none;
+	z-index: 2;
+	position: fixed;
+	width: 450px;
+	top: 20%;
+	left: 50%;
+	margin-left: -250px;
+	background-image: -webkit-linear-gradient(top, #646464 0%, #787878 100%);
+	border: 3px solid #ccc;
+	border-radius: 5px, 5px, 5px, 5px;
+	font-size: 14px;
+	color: #000;
+}
+
+#closePopup{
+	position: relative;
+	height: 30px;
+	width: 30px;
+	left: 20px;
+	bottom: 20px;
+	background-image: url(../img/x.png);
+	float: right;
+	cursor: pointer;
+}
+
+#popup_inhalt{
+	margin: 8px 14px;
+}
+
+.tabelleninhalt{
+	padding-left:10px;
+	padding-right: 10px;
+	margin: 3px;
+}
+
+#getMarkedSequenz{
+	margin-left: 110px;
+}
+
+#deleteMarkedSequenz{
+	margin-right: 50px;
 }

@@ -8,45 +8,175 @@ $(document).ready(function() {
 	context = canvas.getContext("2d");
 	elementList = [];
 	lineList = [];
+	labelList = [];
+	markedSequenz = undefined;
 	mousedown = false;
 	amMalen = false;
 	startAnker = undefined;
 	var x,y;
 	pos_hover = [0,0];
 	markedElement = undefined;
+	popup_zustand = false;
 	mySocket = null;
 	var myButton = document.getElementById('button');
 
 	myButton.addEventListener('click', function(){
 		addElement();
 	}, false);
-	var testButton = document.getElementById('testButton');
 
-	testButton.addEventListener('click', function(){
-		var ids = [];
-			for(var i = 1; i < elementList.length; i++){
-				ids.push(elementList[i].id);	
-				var elemente = { element: { id: i, position: [elementList[i].element.style.left, elementList[i].element.style.top] } };
-				$.post('http://localhost:8080/db', elemente, function(data){
-			console.log('eingefügt: ' + data);
-				});
+	var getMarkedSequenz = document.getElementById('getMarkedSequenz');
+
+	getMarkedSequenz.addEventListener('click', function(){
+		$.ajax({
+			url: 'http://localhost:8080/api/v1/sequenzes/' + markedSequenz,
+			type: 'GET',
+			data: { email: document.getElementById('email').value },
+			success: function(data){
+				var anzahl = elementList.length;
+				for(var i = 0; i < elementList.length; i++){
+					elementList[i].element.remove();
+				}
+				elementList = [];
+				lineList = [];
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				firstElement = new Element(0);
+				elementList.push(firstElement);
+				if (data[0].elemente){
+					for (var i = 0; i < data[0].elemente.length; i++){
+						otherElement = new Element(data[0].elemente[i].element.id,
+							data[0].elemente[i].element.position[0],
+							data[0].elemente[i].element.position[1]);
+						elementList.push(otherElement);
+					}
+				}
+				if (data[0].linien){
+					for (var j = 0; j < data[0].linien.length; j++){
+						linie = new Linie(document.getElementById(data[0].linien[j].linie.anfang),
+							document.getElementById(data[0].linien[j].linie.ende));
+						lineList.push(linie);
+					}
+				}
 			}
-	}, false);
-	
+		});
 		
+	}, false);
 
-	var testButton2 = document.getElementById('testButton2');
+	var openPopup = document.getElementById('openPopup');
 
-	testButton2.addEventListener('click', function(){
-		$.get('http://localhost:8080/getdb', function(data){
-			firstElement = new Element(0);
-			elementList.push(firstElement);
-			otherElement = new Element(data[0].inhalt.element.id, data[0].inhalt.element.position[0], data[0].inhalt.element.position[1]);
-			elementList.push(otherElement);	
-			console.log(data[0].inhalt.element.position);
+	openPopup.addEventListener('click', function(){
+		if(popup_zustand == false){
+			
+			$('#hintergrund').css('opacity', '0.7');
+			$('#hintergrund').fadeIn('normal');	
+			$('#popup').fadeIn('normal');
+			popup_zustand = true;
+		}
+	});
+
+	var saveSequenz = document.getElementById('saveSequenz');
+
+	saveSequenz.addEventListener('click', function(){
+		var elemente = [];
+		var linien = [];
+
+		for(var i = 1; i < elementList.length; i++){
+			var element = { element: { id: i, position: [elementList[i].element.style.left,
+				elementList[i].element.style.top] } };
+			elemente.push(element);
+		}
+
+		for(var j = 0; j < lineList.length; j++){
+			var linie = { linie: { anfang: lineList[j].ap.id, ende: lineList[j].ap_ende.id } };
+			linien.push(linie);
+		}
+		$.ajax({
+			url: 'http://localhost:8080/api/v1/sequenzes/',
+			type: 'PUT',
+			data: {
+				elemente: elemente,
+				linien: linien,
+				email: document.getElementById('addEmail').value,
+				name: document.getElementById('addSequenz').value
+			},
+			success: function(data){
+				console.log('success');
+				console.log(data);
+				if(popup_zustand == true){
+					$('#popup').fadeOut('normal');
+					$('#hintergrund').fadeOut('normal');
+				popup_zustand = false;
+				}
+				for( var i = 0; i < labelList.length; i++){
+					labelList[i].remove();
+				}
+				labelList = [];
+				lis = document.getElementById('liste');
+				while (lis.firstChild) lis.removeChild(lis.firstChild);
+				
+				for( var i = 0; i < data.length; i++){
+					$('<p> - <label class="tabelleninhalt" id="'+data[i].name+
+						'" onclick="selectLabel(this)"><font color="#FF6E14">'+data[i].name+
+						'</font></label></p>').appendTo('#liste');
+					labelList.push(document.getElementById(data[i].name));
+				}
+			}
+		});
+	});
+
+	var deleteMarkedSequenz = document.getElementById('deleteMarkedSequenz');
+
+	deleteMarkedSequenz.addEventListener('click', function(){
+		$.ajax({
+			url: 'http://localhost:8080/api/v1/',
+			type: 'DELETE',
+			data: {
+				email: document.getElementById('email').value,
+				name: markedSequenz
+			},
+			success: function(data){
+				console.log('delete')
+			}
 		});
 	}, false);
+	
+	var getSequenzes = document.getElementById('getSequenzes');
+
+	getSequenzes.addEventListener('click', function(){
+		$.ajax({
+			url: 'http://localhost:8080/api/v1/sequenzes/',
+			type: 'GET',
+			data: { email: document.getElementById('email').value },
+			success: function(data){
+				for( var i = 0; i < data.length; i++){
+					$('<p> - <label class="tabelleninhalt" id="'+data[i].name+
+						'" onclick="selectLabel(this)"><font color="#FF6E14">'+data[i].name+
+						'</font></label></p>').appendTo('#liste');
+					labelList.push(document.getElementById(data[i].name));
+				}
+				$('.db-stuff').show('slow');
+			}
+		});
+	}, false);
+
+	var closePopup = document.getElementById('closePopup');
+
+	closePopup.addEventListener('click', function(){
+		if(popup_zustand == true){
+			$('#popup').fadeOut('normal');
+			$('#hintergrund').fadeOut('normal');
+			popup_zustand = false;
+		}
+	});
 });
+
+selectLabel = function(lb){
+	for( var i = 0; i < labelList.length; i++){
+		labelList[i].style.backgroundColor = 'transparent';
+	}
+	lb.style.backgroundColor = '#42C4FF';
+	lb.style.borderRadius = '5px';
+	markedSequenz = lb.id;
+}
 
 addElement = function(){
 	if(elementList.length==0){
@@ -55,7 +185,6 @@ addElement = function(){
 	}else{
 		otherElement = new Element(elementList.length);
 		elementList.push(otherElement);
-		console.log(elementList);
 	}
 }
 

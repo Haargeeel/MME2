@@ -145,8 +145,8 @@ label{
 }
 
 #hintergrund{
-	display:none;
-	z-index:1;
+	display: none;
+	z-index: 1;
 	position:fixed;
 	height: 100%;
 	width: 100%;
@@ -155,7 +155,7 @@ label{
 	background: #000000;
 }
 
-#popup{
+.popup{
 	display: none;
 	z-index: 2;
 	position: fixed;
@@ -170,7 +170,7 @@ label{
 	color: #000;
 }
 
-#closePopup{
+.closePopup{
 	position: relative;
 	height: 30px;
 	width: 30px;

@@ -24,6 +24,20 @@ $(document).ready(function() {
 		addElement();
 	}, false);
 
+	$.ajaxSetup({
+		error: function(jqXHR, exception){
+			if(jqXHR.status === 401){
+				console.log('Status Code: 401 ' + jqXHR.responseText);
+			}else if(jqXHR.status === 204){
+				console.log('Status Code: 204 ' + jqXHR.responseText);
+			}else if(jqXHR.status === 406){
+				console.log('Status Code: 406 ' + jqXHR.responseText);
+			}else if(jqXHR.status === 500){
+				console.log('Status Code: 500 ' + jqXHR.responseText);
+			}
+		}
+	});
+
 	var getMarkedSequenz = document.getElementById('getMarkedSequenz');
 
 	getMarkedSequenz.addEventListener('click', function(){
@@ -66,16 +80,22 @@ $(document).ready(function() {
 	openPopup.addEventListener('click', function(){
 		if(popup_zustand == false){
 			
-			$('#hintergrund').css('opacity', '0.7');
-			$('#hintergrund').fadeIn('normal');	
-			$('#popup').fadeIn('normal');
+			document.getElementById('hintergrund').style.opacity = '0.7';
+			//$('#hintergrund').css('opacity', '0.7');
+			//$('#hintergrund').fadeIn('normal');	
+			document.getElementById('hintergrund').style.display = 'block';
+			if(markedSequenz){
+				$('#popup_update').fadeIn('normal');
+			}else{
+				$('#popup_new').fadeIn('normal');
+			}
 			popup_zustand = true;
 		}
 	});
 
-	var saveSequenz = document.getElementById('saveSequenz');
+	var saveSequenz_new = document.getElementById('saveSequenz_new');
 
-	saveSequenz.addEventListener('click', function(){
+	saveSequenz_new.addEventListener('click', function(){
 		var elemente = [];
 		var linien = [];
 
@@ -91,7 +111,7 @@ $(document).ready(function() {
 		}
 		$.ajax({
 			url: 'http://localhost:8080/api/v1/sequenzes/',
-			type: 'PUT',
+			type: 'POST',
 			data: {
 				elemente: elemente,
 				linien: linien,
@@ -102,9 +122,9 @@ $(document).ready(function() {
 				console.log('success');
 				console.log(data);
 				if(popup_zustand == true){
-					$('#popup').fadeOut('normal');
+					$('#popup_new').fadeOut('normal');
 					$('#hintergrund').fadeOut('normal');
-				popup_zustand = false;
+					popup_zustand = false;
 				}
 				for( var i = 0; i < labelList.length; i++){
 					labelList[i].remove();
@@ -114,27 +134,78 @@ $(document).ready(function() {
 				while (lis.firstChild) lis.removeChild(lis.firstChild);
 				
 				for( var i = 0; i < data.length; i++){
-					$('<p> - <label class="tabelleninhalt" id="'+data[i].name+
+					$('<p> - <label class="tabelleninhalt" id="'+data[i]._id+
 						'" onclick="selectLabel(this)"><font color="#FF6E14">'+data[i].name+
 						'</font></label></p>').appendTo('#liste');
-					labelList.push(document.getElementById(data[i].name));
+					labelList.push(document.getElementById(data[i]._id));
 				}
 			}
 		});
 	});
 
+	var saveSequenz_update = document.getElementById('saveSequenz_update');
+
+	saveSequenz_update.addEventListener('click', function(){
+		var elemente = [];
+		var linien = [];
+
+		for(var i = 1; i < elementList.length; i++){
+			var element = { element: { id: i, position: [elementList[i].element.style.left,
+				elementList[i].element.style.top] } };
+			elemente.push(element);
+		}
+
+		for(var j = 0; j < lineList.length; j++){
+			var linie = { linie: { anfang: lineList[j].ap.id, ende: lineList[j].ap_ende.id } };
+			linien.push(linie);
+		}
+		$.ajax({
+			url: 'http://localhost:8080/api/v1/sequenzes/' + markedSequenz,
+			type: 'PUT',
+			data: {
+				elemente: elemente,
+				linien: linien,
+				email: document.getElementById('email').value
+			},
+			success: function(data){
+				console.log(data);
+				if(popup_zustand == true){
+					$('#popup_update').fadeOut('normal');
+					$('#hintergrund').fadeOut('normal');
+					popup_zustand = false;
+				}
+			}
+		});
+		if(popup_zustand == true){
+			$('#popup_update').fadeOut('normal');
+			$('#hintergrund').fadeOut('normal');
+			popup_zustand = false;
+		}
+	}, false);
+
 	var deleteMarkedSequenz = document.getElementById('deleteMarkedSequenz');
 
 	deleteMarkedSequenz.addEventListener('click', function(){
 		$.ajax({
-			url: 'http://localhost:8080/api/v1/',
+			url: 'http://localhost:8080/api/v1/sequenzes/' + markedSequenz,
 			type: 'DELETE',
 			data: {
 				email: document.getElementById('email').value,
-				name: markedSequenz
 			},
 			success: function(data){
-				console.log('delete')
+				for( var i = 0; i < labelList.length; i++){
+					labelList[i].remove();
+				}
+				labelList = [];
+				lis = document.getElementById('liste');
+				while (lis.firstChild) lis.removeChild(lis.firstChild);
+				
+				for( var i = 0; i < data.length; i++){
+					$('<p> - <label class="tabelleninhalt" id="'+data[i]._id+
+						'" onclick="selectLabel(this)"><font color="#FF6E14">'+data[i].name+
+						'</font></label></p>').appendTo('#liste');
+					labelList.push(document.getElementById(data[i]._id));
+				}
 			}
 		});
 	}, false);
@@ -147,22 +218,39 @@ $(document).ready(function() {
 			type: 'GET',
 			data: { email: document.getElementById('email').value },
 			success: function(data){
+				for( var i = 0; i < labelList.length; i++){
+					labelList[i].remove();
+				}
+				labelList = [];
+				lis = document.getElementById('liste');
+				while (lis.firstChild) lis.removeChild(lis.firstChild);
+
 				for( var i = 0; i < data.length; i++){
-					$('<p> - <label class="tabelleninhalt" id="'+data[i].name+
+					$('<p> - <label class="tabelleninhalt" id="'+data[i]._id+
 						'" onclick="selectLabel(this)"><font color="#FF6E14">'+data[i].name+
 						'</font></label></p>').appendTo('#liste');
-					labelList.push(document.getElementById(data[i].name));
+					labelList.push(document.getElementById(data[i]._id));
 				}
 				$('.db-stuff').show('slow');
 			}
 		});
 	}, false);
 
-	var closePopup = document.getElementById('closePopup');
+	var closePopup = document.getElementById('closePopup_new');
 
 	closePopup.addEventListener('click', function(){
 		if(popup_zustand == true){
-			$('#popup').fadeOut('normal');
+			$('#popup_new').fadeOut('normal');
+			$('#hintergrund').fadeOut('normal');
+			popup_zustand = false;
+		}
+	});
+
+	var closePopup_update = document.getElementById('closePopup_update');
+
+	closePopup_update.addEventListener('click', function(){
+		if(popup_zustand == true){
+			$('#popup_update').fadeOut('normal');
 			$('#hintergrund').fadeOut('normal');
 			popup_zustand = false;
 		}
@@ -173,9 +261,13 @@ selectLabel = function(lb){
 	for( var i = 0; i < labelList.length; i++){
 		labelList[i].style.backgroundColor = 'transparent';
 	}
-	lb.style.backgroundColor = '#42C4FF';
-	lb.style.borderRadius = '5px';
-	markedSequenz = lb.id;
+	if(lb.id == markedSequenz){
+		markedSequenz = undefined;
+	}else{
+		lb.style.backgroundColor = '#42C4FF';
+		lb.style.borderRadius = '5px';
+		markedSequenz = lb.id;
+	}
 }
 
 addElement = function(){
@@ -189,10 +281,11 @@ addElement = function(){
 }
 
 getPosition = function(item){
-		var rect = item.getBoundingClientRect();
-		var x = rect.left - canvas.offsetLeft + (rect.width/2);
-		var y = rect.top-canvas.offsetTop+(rect.height/2);
-		return [x,y];
+
+	var tmp = $('#'+item.id);
+	var x = tmp.offset().left - canvas.offsetLeft + (tmp.width() / 2);
+	var y = tmp.offset().top - canvas.offsetTop + (tmp.height() / 2);
+	return [x, y];
 	}
 
 markiert = function(element){

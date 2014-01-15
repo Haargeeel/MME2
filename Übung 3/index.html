@@ -31,16 +31,35 @@
 		
 	</div>
 	
-	<div id="popup">
-		<div id="closePopup"></div>
+	<div class="popup" id="popup_new">
+		<div class="closePopup" id="closePopup_new"></div>
 
 		<div id="popup_inhalt">
 			<p><h3><font color="#FF6E14">Du musst noch eine E-Mail und einen Namen für dein Sequenzdiagramm eingeben</font></h3></p>
-			<label><font color="#FF6E14">E-Mail:  </font></label><input id="addEmail" type="email"><br>
-			<label><font color="#FF6E14">Sequenzname:   </font></label><input id="addSequenz" type="text"><br>
-			<button id="saveSequenz">Speichern</button>
+			<table border="0">
+				<tr>
+					<td><label><font color="#FF6E14">E-Mail:  </font></label></td>
+					<td><input id="addEmail" type="email"></th>
+				</tr>
+				<tr>
+					<td><label><font color="#FF6E14">Sequenzname:   </font></label></td>
+					<td><input id="addSequenz" type="text"></td>
+				</tr>
+			</table>
+			<button id="saveSequenz_new">Speichern</button>
 		</div>
 	</div>
+
+	<div class="popup" id="popup_update">
+		<div class="closePopup" id="closePopup_update"></div>
+
+		<div id="popup_inhalt">
+			<p><h3><font color="#FF6E14">Willst du wirklich die Sequenz überspeichern?</font></h3></p>
+			
+			<button id="saveSequenz_update">Ja</button>
+		</div>
+	</div>
+
 	<div id='hintergrund'></div>	
 </body>
 

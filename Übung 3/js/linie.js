@@ -16,3 +16,7 @@ Linie.prototype.draw = function(){
 	context.lineTo(getPosition(this.ap_ende)[0], getPosition(this.ap_ende)[1]);
 	context.stroke();
 };
+
+Linie.prototype.getAnkerPosition = function(ap){
+	var tmp = document.getElementById(ap.id);
+}

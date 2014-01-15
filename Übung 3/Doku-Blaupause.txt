@@ -1,0 +1,300 @@
+FORMAT: 1A
+HOST: localhost:8080
+
+# MME
+Ein Sequenzeditor mit Datenbankanbindung.
+
+## Sequenzen Kollektion [/api/v1/sequenzes/]
+### Listet alle Sequenzen [GET]
++ Request (application/json)
+
+         EMail, sodass mehrere Benutzer die Datenbank benutzen können.
+         Bsp.:
+         { "email": "ray.g@gmx.de" }
+
++ Response 200 (application/json)
+        
+        Die Sequenzen, die unter der EMail gespeichert sind.
+        Mehrere JSON Objekte in einem Array. Jedes JSON Objekt ist eine Sequenz.
+        Bsp.:
+        [{
+          "_id": "52cca55247fbdff450000010",
+          "elemente": [
+            {
+                "element": {
+                    "id": "1",
+                    "position": [
+                        "400px",
+                        "100px"
+                    ]
+                }
+            }
+        ],
+        "email": "ray.g@gmx.de",
+        "linien": null,
+        "name": "test9"
+        }, {
+          "_id": "52d44c7b268068d41b000001",
+          "elemente": [
+            {
+                "element": {
+                    "id": "1",
+                    "position": [
+                        "400px",
+                        "100px"
+                    ]
+                }
+            },
+                "element": {
+                    "id": "2",
+                    "position": [
+                        "525px",
+                        "427px"
+                    }
+                }
+            }
+        ],
+        "email": "ray.g@gmx.de",
+        "linien": [
+            {
+                "linie": {
+                    "anfang": "ap_unten1",
+                    "ende": "ap_oben2"
+                }
+            }
+        ],
+        "name": "hmm"
+        }]
+
++ Response 401
+        
+        'Email Identifizierung gescheitert'
+
+### Erstellt eine neue Sequenz [POST]
++ Request (application/json)
+
+        JSON Objekt mit den Element, den Verbindungen, der EMail zur Identifizierung und dem Namen der Sequenz.
+        Bsp.:
+        { "elemente": elemente,
+          "linien": linien,
+          "email": "ray.g@gmx.de",
+          "name": "Sequenzname"
+        }
+
++ Response 201 (application/json)
+        
+        Die Sequenzen, die unter der EMail gespeichert sind.
+        Mehrere JSON Objekte in einem Array. Jedes JSON Objekt ist eine Sequenz.
+        Bsp.:
+        [{
+          "_id": "52cca55247fbdff450000010",
+          "elemente": [
+            {
+                "element": {
+                    "id": "1",
+                    "position": [
+                        "400px",
+                        "100px"
+                    ]
+                }
+            }
+        ],
+        "email": "ray.g@gmx.de",
+        "linien": null,
+        "name": "test9"
+        }, {
+          "_id": "52d44c7b268068d41b000001",
+          "elemente": [
+            {
+                "element": {
+                    "id": "1",
+                    "position": [
+                        "400px",
+                        "100px"
+                    ]
+                }
+            },
+                "element": {
+                    "id": "2",
+                    "position": [
+                        "525px",
+                        "427px"
+                    }
+                }
+            }
+        ],
+        "email": "ray.g@gmx.de",
+        "linien": [
+            {
+                "linie": {
+                    "anfang": "ap_unten1",
+                    "ende": "ap_oben2"
+                }
+            }
+        ],
+        "name": "hmm"
+        }]
+        
++ Response 401
+        
+        'Email Identifizierung gescheitert'
+
++ Response 406
+        
+        'Kein Name angegeben'
+
+## Sequenz [/api/v1/:id]
+Eine einzelne Sequenz mit ihren Details
+
++ Parameters
+    + id (required, number, `52cca55247fbdff450000010`) ... Mongo `id`, die als eindeutiger Suchschlüssel für die Mongo-Datenbank fungiert.
+
+### Sequenz erfragen [GET]
++ Request (application/json)
+
+        Die EMail zur Identifizierung des Benutzers.
+        Bsp.:
+        { "email": "ray.g@gmx.de" }
+
++ Response 200 (application/json)
+
+        Die einzelne Sequenz als JSON Objekt.
+        Bsp.:
+        {
+            "_id": "52cca55247fbdff450000010",
+            "elemente": [
+                {
+                    "element": {
+                        "id": "1",
+                        "position": [
+                            "400px",
+                            "100px"
+                        ]
+                    }
+                }
+            ],
+            "email": "ray.g@gmx.de",
+            "linien": null,
+            "name": "test9"
+        }
+                
++ Response 500
+
+        'Falsche ID angegeben'
+        
+### Sequenz aktualisieren [PUT]
++ Request (application/json)
+
+            Elemente, die verbindenen Linien und die EMail zur Identifizierung.
+            Bsp.:
+            { 
+                "elemente": elemente,
+                "linien": linien,
+                "email": "ray.g@gmx.de"
+            }
+
++ Response 200 (application/json)
+
+        Alle Sequenzen darunter auch die bearbeitete, die unter der EMail gespeichert sind als JSON Objekte.
+        Bsp.:
+        [{
+          "_id": "52cca55247fbdff450000010",
+          "elemente": [
+            {
+                "element": {
+                    "id": "1",
+                    "position": [
+                        "200px",
+                        "100px"
+                    ]
+                }
+            }
+        ],
+        "email": "ray.g@gmx.de",
+        "linien": null,
+        "name": "test9"
+        }, {
+          "_id": "52d44c7b268068d41b000001",
+          "elemente": [
+            {
+                "element": {
+                    "id": "1",
+                    "position": [
+                        "400px",
+                        "100px"
+                    ]
+                }
+            },
+                "element": {
+                    "id": "2",
+                    "position": [
+                        "525px",
+                        "427px"
+                    }
+                }
+            }
+        ],
+        "email": "ray.g@gmx.de",
+        "linien": [
+            {
+                "linie": {
+                    "anfang": "ap_unten1",
+                    "ende": "ap_oben2"
+                }
+            }
+        ],
+        "name": "hmm"
+        }]
+
++ Response 500
+
+            'Falsche ID angegeben'
+
+### Sequenz löschen [DELETE]
++ Request (application/json)
+
+            EMail zur Identifizierung.
+            Bsp.:
+            { "email": "ray.g@gmx.de" }
+            
++ Response 200 (application/json)
+        
+        Alle restlichen Sequenzen, die unter der EMail gespeichert sind.
+        Bsp.:
+        [{
+          "_id": "52d44c7b268068d41b000001",
+          "elemente": [
+            {
+                "element": {
+                    "id": "1",
+                    "position": [
+                        "400px",
+                        "100px"
+                    ]
+                }
+            },
+                "element": {
+                    "id": "2",
+                    "position": [
+                        "525px",
+                        "427px"
+                    }
+                }
+            }
+        ],
+        "email": "ray.g@gmx.de",
+        "linien": [
+            {
+                "linie": {
+                    "anfang": "ap_unten1",
+                    "ende": "ap_oben2"
+                }
+            }
+        ],
+        "name": "hmm"
+        }]
+
++ Response 500
+            
+            'Falsche ID angegeben'
+
